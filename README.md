@@ -1,2 +1,2 @@
-# satmae_pp
-Pre-training Vision Transformers for Multi-Spectral Satellite Imagery
+# SatMAE++
+Rethinking Transformers Pre-training for Multi-Spectral Satellite Imagery (CVPR 2024)
