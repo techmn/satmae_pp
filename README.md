@@ -12,4 +12,123 @@ SatMAE++ incorporates the multiscale information by reconstructing the image at 
 
 <img width="1096" alt="image" src="images/overall_architecture.png">
 
+## FMoW-Sentinel
+You can download the dataset and corresponding train/val csv files from these links [[satmae github]](https://github.com/sustainlab-group/SatMAE) [[fmow-sentinel]](https://purl.stanford.edu/vg497cb6002)
 
+Directory structure of the dataset should look like as below:
+
+```
+[Root folder]
+____ train.csv
+____ val.csv
+____ [images folder]
+________ train
+____________ aiport
+____________ aiport_hangar
+____________ .......
+________ val
+____________ aiport
+____________ aiport_hangar
+____________ .......
+```
+
+### Pretraining
+To pretrain the ViT model (default is ViT-L) using SatMAE++ approach on fmow_sentinel dataset, use the command as below:
+
+```
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python -m torch.distributed.launch --nproc_per_node=8 --master_port=29201 main_pretrain.py \
+--batch_size 16 --accum_iter 16 \
+--epochs 50 --warmup_epochs 20 \
+--input_size 96 --patch_size 8 \
+--mask_ratio 0.75 \
+--model_type group_c \
+--dropped_bands 0 9 10 \
+--dataset_type sentinel --dropped_bands 0 9 10 \
+--grouped_bands 0 1 2 6 --grouped_bands 3 4 5 7 --grouped_bands 8 9 \
+--blr 0.0001 --num_workers 16 \
+--train_path /home/fmow-sentinel/train.csv \
+--output_dir ./output_dir \
+--log_dir ./output_dir
+```
+
+### Finetuning
+To finetune the ViT model (default is ViT-L), use the command as below:
+
+```
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python -m torch.distributed.launch --nproc_per_node=8 --master_port=29202 main_pretrain.py \
+--batch_size 8 --accum_iter 16 \
+--epochs 30 --warmup_epochs 5 \
+--input_size 96 --patch_size 8 \
+--model_type group_c \
+--dropped_bands 0 9 10 \
+--dataset_type sentinel --dropped_bands 0 9 10 \
+--grouped_bands 0 1 2 6 --grouped_bands 3 4 5 7 --grouped_bands 8 9 \
+--weight_decay 0.05 --drop_path 0.2 --reprob 0.25 --mixup 0.8 --cutmix 1.0 \
+--blr 0.0002 --num_workers 16 \
+--train_path /home/fmow-sentinel/train.csv \
+--test_path /home/fmow-sentinel/val.csv \
+--output_dir ./finetune_dir \
+--log_dir ./finetune_dir \
+--finetune ./output_dir/checkpoint-49.pth
+```
+
+------------------------------------------------------------------------------------
+
+## FMoW-RGB
+You can download the dataset by following the instructions here [[fmow-github]](https://github.com/fMoW/dataset)
+
+Download the train and validation json files here [[train_val_split_fmow_rgb]](). 
+Alternately, you can preprocess data and create your own json/csv files using the script here [[fmow-rgb preprocessing issue]](https://github.com/sustainlab-group/SatMAE/issues/1)
+
+Directory structure of the dataset should look like as below:
+
+```
+[Root folder]
+____ train_62classes.json
+____ val_62classes.json
+____ train
+________ aiport
+________ aiport_hangar
+________ .......
+____ val
+________ aiport
+________ aiport_hangar
+________ .......
+```
+
+### Pretraining
+Use the below command to pretrain the ViT model (default is ViT-L) on fmow_RGB dataset:
+
+```
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python -m torch.distributed.launch --nproc_per_node=8 --master_port=29201 main_pretrain.py \
+--batch_size 64 --accum_iter 32 \
+--epochs 800 --warmup_epochs 20 \
+--input_size 224 --patch_size 16 \
+--mask_ratio 0.75 \
+--model_type vanilla \
+--dataset_type rgb \
+--weight_decay 0.3 \
+--lr 0.0007 --num_workers 16 \
+--train_path /home/fmow-rgb/train_62classes.json \
+--output_dir ./output_dir \
+--log_dir ./output_dir
+```
+
+### Finetuning
+USe the following command to finetune the ViT model (default is ViT-L):
+
+```
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python -m torch.distributed.launch --nproc_per_node=8 --master_port=29202 main_pretrain.py \
+--batch_size 8 --accum_iter 16 \
+--epochs 50 --warmup_epochs 5 \
+--input_size 224 --patch_size 16 \
+--model_type vanilla \
+--dataset_type rgb \
+--weight_decay 0.05 --drop_path 0.2 --reprob 0.25 --mixup 0.8 --cutmix 1.0 \
+--lr 0.001 --num_workers 16 \
+--train_path /home/fmow-rgb/train_62classes.json \
+--test_path /home/fmow-rgb/val_62classes.json \
+--output_dir ./finetune_dir \
+--log_dir ./finetune_dir \
+--finetune ./output_dir/checkpoint-799.pth
+```
