@@ -136,8 +136,8 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python -m torch.distributed.launch --nproc_
 ## Model Weights
 | Model | Dataset | Top1 Acc (%) | Pretrain | Finetune |
 | :---  |  :---:  |    :---:     |   :---:  |  :---:   |
-| ViT-L | FMoW-Sentinel | 63.23 | [download]() | [download]() |
-| ViT-L | FMoW-RGB | 78.14 | [download]() | [download]() |
+| ViT-L | FMoW-Sentinel | 63.23 | will be released soon | will be released soon |
+| ViT-L | FMoW-RGB | 78.14 | will be released soon | will be released soon |
 
 
 ## Acknowledgements
