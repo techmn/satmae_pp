@@ -77,7 +77,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python -m torch.distributed.launch --nproc_
 ## FMoW-RGB
 You can download the dataset by following the instructions here [[fmow-github]](https://github.com/fMoW/dataset)
 
-Download the train and validation json files here [[train_val_split_fmow_rgb]](). 
+Download the train and validation json files here (*will be uploaded soon*). 
 Alternately, you can preprocess data and create your own json/csv files using the script here [[fmow-rgb preprocessing issue]](https://github.com/sustainlab-group/SatMAE/issues/1)
 
 Directory structure of the dataset should look like as below:
