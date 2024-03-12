@@ -12,6 +12,8 @@ SatMAE++ incorporates the multiscale information by reconstructing the image at 
 
 <img width="1096" alt="image" src="images/overall_architecture.png">
 
+------------------------------------------------------------------------------------
+
 ## FMoW-Sentinel
 You can download the dataset and corresponding train/val csv files from these links [[satmae github]](https://github.com/sustainlab-group/SatMAE) [[fmow-sentinel]](https://purl.stanford.edu/vg497cb6002)
 
@@ -132,6 +134,17 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python -m torch.distributed.launch --nproc_
 --log_dir ./finetune_dir \
 --finetune ./output_dir/checkpoint-799.pth
 ```
+
+------------------------------------------------------------------------------------
+
+## Downstream Datasets
+Data splits for EuroSAT, UCMerced and RESISC-45 are available at [[google-research]](https://github.com/google-research/google-research/tree/master/remote_sensing_representations).
+
+- EuroSAT [[download]](https://github.com/phelber/EuroSAT)
+- RESISC-45 [[onedrive link on page 2 paper]](https://arxiv.org/pdf/1703.00121.pdf) &nbsp; [[project website]](http://www.escience.cn/people/JunweiHan/NWPU-RESISC45.html)
+- UCMerced [[download]](http://weegee.vision.ucmerced.edu/datasets/landuse.html)
+
+------------------------------------------------------------------------------------
 
 ## Model Weights
 | Model | Dataset | Top1 Acc (%) | Pretrain | Finetune |
