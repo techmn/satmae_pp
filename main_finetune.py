@@ -103,7 +103,7 @@ def get_args_parser():
                         help='Train .csv path')
     parser.add_argument('--test_path', default='dataset/fmow_sentinel/val.csv', type=str,
                         help='Test .csv path')
-    parser.add_argument('--dataset_type', default='sentinel', choices=['rgb', 'sentinel', 'euro_sat'],
+    parser.add_argument('--dataset_type', default='sentinel', choices=['rgb', 'sentinel', 'euro_sat', 'resisc', 'ucmerced'],
                         help='Whether to use fmow rgb, sentinel, or other dataset.')
     parser.add_argument('--masked_bands', default=None, nargs='+', type=int,
                         help='Sequence of band indices to mask (with mean val) in sentinel dataset')
