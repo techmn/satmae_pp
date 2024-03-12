@@ -55,7 +55,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python -m torch.distributed.launch --nproc_
 To finetune the ViT model (default is ViT-L), use the command as below:
 
 ```
-CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python -m torch.distributed.launch --nproc_per_node=8 --master_port=29202 main_pretrain.py \
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python -m torch.distributed.launch --nproc_per_node=8 --master_port=29202 main_finetune.py \
 --batch_size 8 --accum_iter 16 \
 --epochs 30 --warmup_epochs 5 \
 --input_size 96 --patch_size 8 \
@@ -118,7 +118,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python -m torch.distributed.launch --nproc_
 USe the following command to finetune the ViT model (default is ViT-L):
 
 ```
-CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python -m torch.distributed.launch --nproc_per_node=8 --master_port=29202 main_pretrain.py \
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python -m torch.distributed.launch --nproc_per_node=8 --master_port=29202 main_finetune.py \
 --batch_size 8 --accum_iter 16 \
 --epochs 50 --warmup_epochs 5 \
 --input_size 224 --patch_size 16 \
