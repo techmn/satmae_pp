@@ -387,6 +387,127 @@ class EuroSat_RGB(SatelliteDataset):
 
         return {'img':img_as_tensor, 'label':label}
 
+#########################################################
+# UC-Merced
+#########################################################
+
+class UCMerced(SatelliteDataset):
+    #mean = [0.4842, 0.4901, 0.4505] # from scale mae
+    #std = [0.2180, 0.2021, 0.1958] # from scale mae
+    mean = [0.485, 0.456, 0.406] # ImageNet
+    std = [0.229, 0.224, 0.225] # ImageNet
+
+
+    def __init__(self, base_path, file_path, transform):
+        """
+        Creates dataset for RGB single image classification for UCMerced.
+        :param base_path: path to the dataset root folder.
+        :param file_path: path to txt file containing paths to image data for UCMerced.
+        :param transform: pytorch Transform for transforms and tensor conversion
+        """
+        super().__init__(3)
+        self.base_path = base_path
+
+        # read data split file
+        fid = open(file_path)
+        data = fid.read()
+        fid.close()
+
+        # get list of images and corresponding labels
+        data = data.splitlines()
+
+        self.img_paths = []
+        self.labels = []
+        for line in data:
+            line = line.strip()
+            folder = line[:-6]
+            self.labels.append(folder)
+            self.img_paths.append(folder+'/'+line)
+
+        # transforms
+        self.transform = transform
+        self.categories = sorted(os.listdir(base_path))
+
+
+    def __len__(self):
+        return len(self.img_paths)
+
+    def __getitem__(self, idx):
+        # get image path at idx
+        img_path = self.img_paths[idx]
+
+        #read image
+        abs_img_path = os.path.join(self.base_path, img_path)
+        img = cv2.cvtColor(cv2.imread(abs_img_path), cv2.COLOR_BGR2RGB)
+
+        # get integer label
+        label = self.categories.index(self.labels[idx])
+
+        # apply transforms
+        img_as_tensor = self.transform(img)  # (c, h, w)
+
+        return {'img':img_as_tensor, 'label':label}
+
+#########################################################
+# RESISC-45
+#########################################################
+
+class Resisc_45(SatelliteDataset):
+    #mean = [0.368, 0.381, 0.3436] # from scale mae
+    #std = [0.2035, 0.1854, 0.1849] # from scale mae
+    mean = [0.485, 0.456, 0.406] # ImageNet
+    std = [0.229, 0.224, 0.225] # ImageNet
+
+
+    def __init__(self, base_path, file_path, transform):
+        """
+        Creates dataset for RGB single image classification for RESISC-45.
+        :param base_path: path to the dataset root folder.
+        :param file_path: path to txt file containing paths to image data for RESISC-45.
+        :param transform: pytorch Transform for transforms and tensor conversion
+        """
+        super().__init__(3)
+        self.base_path = base_path
+
+        # read data split file
+        fid = open(file_path)
+        data = fid.read()
+        fid.close()
+
+        # get list of images and corresponding labels
+        data = data.splitlines()
+
+        self.img_paths = []
+        self.labels = []
+        for line in data:
+            line = line.strip()
+            tok = line.split('/')
+            folder = tok[0]
+            self.labels.append(folder)
+            self.img_paths.append(line)
+            
+        # transforms
+        self.transform = transform
+        self.categories = sorted(os.listdir(base_path))
+
+    def __len__(self):
+        return len(self.img_paths)
+
+    def __getitem__(self, idx):
+        img_path = self.img_paths[idx]
+
+        #read image
+        abs_img_path = os.path.join(self.base_path, img_path)
+        img = cv2.cvtColor(cv2.imread(abs_img_path), cv2.COLOR_BGR2RGB)
+
+        # get integer label
+        label = self.categories.index(self.labels[idx])
+
+        # apply transforms
+        img_as_tensor = self.transform(img)  # (c, h, w)
+
+        return {'img':img_as_tensor, 'label':label}
+
 ###################################################################################################################
 
 def build_fmow_dataset(is_train: bool, args) -> SatelliteDataset:
@@ -415,6 +536,16 @@ def build_fmow_dataset(is_train: bool, args) -> SatelliteDataset:
         mean, std = EuroSat_RGB.mean, EuroSat_RGB.std
         transform = EuroSat_RGB.build_transform(is_train, args.input_size, mean, std)
         dataset = EuroSat_RGB(args.base_path, file_path, transform)
+
+    elif args.dataset_type == 'ucmerced':
+        mean, std = UCMerced.mean, UCMerced.std
+        transform = UCMerced.build_transform(is_train, args.input_size, mean, std)
+        dataset = UCMerced(args.base_path, file_path, transform)
+
+    elif args.dataset_type == 'resisc':
+        mean, std = Resisc_45.mean, Resisc_45.std
+        transform = Resisc_45.build_transform(is_train, args.input_size, mean, std)
+        dataset = Resisc_45(args.base_path, file_path, transform)
     
     else:
         raise ValueError(f"Invalid dataset type: {args.dataset_type}")
