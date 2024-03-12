@@ -15,7 +15,7 @@ SatMAE++ incorporates the multiscale information by reconstructing the image at 
 ## FMoW-Sentinel
 You can download the dataset and corresponding train/val csv files from these links [[satmae github]](https://github.com/sustainlab-group/SatMAE) [[fmow-sentinel]](https://purl.stanford.edu/vg497cb6002)
 
-Directory structure of the dataset should look like as below:
+Directory structure of the dataset should be as below:
 
 ```
 [Root folder]
@@ -115,7 +115,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python -m torch.distributed.launch --nproc_
 ```
 
 ### Finetuning
-USe the following command to finetune the ViT model (default is ViT-L):
+Use the following command to finetune the ViT model (default is ViT-L):
 
 ```
 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python -m torch.distributed.launch --nproc_per_node=8 --master_port=29202 main_finetune.py \
@@ -131,4 +131,24 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python -m torch.distributed.launch --nproc_
 --output_dir ./finetune_dir \
 --log_dir ./finetune_dir \
 --finetune ./output_dir/checkpoint-799.pth
+```
+
+## Model Weights
+| Model | Dataset | Top1 Acc (%) | Pretrain | Finetune |
+| :---  |  :---:  |    :---:     |   :---:  |  :---:   |
+| ViT-L | FMoW-Sentinel | 63.23 | [download]() | [download]() |
+| ViT-L | FMoW-RGB | 78.14 | [download]() | [download]() |
+
+
+## Acknowledgements
+The codebase is inspired from the [SatMAE](https://github.com/sustainlab-group/SatMAE) repository. We thank them for releasing their valuable codebase. 
+
+## Citation
+```
+@inproceedings{satmaepp2024rethinking,
+      title={Rethinking Transformers Pre-training for Multi-Spectral Satellite Imagery}, 
+      author={Mubashir Noman and Muzammal Naseer and Hisham Cholakkal and Rao Muhammad Anwar and Salman Khan and Fahad Shahbaz Khan},
+      year={2024},
+      booktitle={CVPR}
+}
 ```
