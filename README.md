@@ -3,6 +3,7 @@
 ## Updates
 - **March 11, 2024:** SatMAE++ paper is released [[arXiv]](https://arxiv.org/abs/2403.05419)  [[PDF]](https://arxiv.org/pdf/2403.05419.pdf)
 - **March 13, 2024:** Codebase is released.
+- **March 26, 2024:** Pre-trained and Finetuned ViT-Large model weights are released. Json data split files for FMoW-RGB are uploaded.
 
 ## Overview
 Different from standard natural image datasets, remote sensing data is acquired from various sensor technologies and exhibit diverse range of scale variations as well as modalities. Existing satellite image pre-training methods either ignore the scale information present in the remote sensing imagery or restrict themselves to use only a single type of data modality. Compared to existing works, SatMAE++ with multi-scale pre-training is equally effective for both optical as well as multi-spectral imagery. SatMAE++ performs multi-scale pre-training and utilizes convolution based upsampling blocks to reconstruct the image at higher scales making it extensible to include more scales.
@@ -149,8 +150,8 @@ Data splits for EuroSAT, UCMerced and RESISC-45 are available at [[google-resear
 ## Model Weights
 | Model | Dataset | Top1 Acc (%) | Pretrain | Finetune |
 | :---  |  :---:  |    :---:     |   :---:  |  :---:   |
-| ViT-L | FMoW-Sentinel | 63.23 | will be released soon | will be released soon |
-| ViT-L | FMoW-RGB | 78.14 | will be released soon | will be released soon |
+| ViT-L | FMoW-Sentinel | 63.23 | [download](https://huggingface.co/mubashir04/checkpoint_ViT-L_pretrain_fmow_sentinel) | [download](https://huggingface.co/mubashir04/checkpoint_ViT-L_finetune_fmow_sentinel) |
+| ViT-L | FMoW-RGB | 78.14 | [download](https://huggingface.co/mubashir04/checkpoint_ViT-L_pretrain_fmow_rgb) | [download](https://huggingface.co/mubashir04/checkpoint_ViT-L_finetune_fmow_rgb) |
 
 
 ## Acknowledgements
