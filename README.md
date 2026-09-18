@@ -1,5 +1,7 @@
 # SatMAE++: Rethinking Transformers Pre-training for Multi-Spectral Satellite Imagery (CVPR 2024)
 
+[![Papers with Code: #2 on EuroSAT RGB (Fixed 60/20/20 Neumann Split)](https://paperswithcode.co/api/v1/papers/2403.05419/leaderboard-badge.svg?eval=17162&live=1)](https://paperswithcode.co/api/v1/papers/2403.05419/leaderboard-badge-link?eval=17162)
+
 ## Updates
 - **March 11, 2024:** SatMAE++ paper is released [[arXiv]](https://arxiv.org/abs/2403.05419)  [[PDF]](https://arxiv.org/pdf/2403.05419.pdf)
 - **March 13, 2024:** Codebase is released.
